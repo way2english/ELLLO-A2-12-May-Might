@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A2-12 May / Might — Way2English</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#4361ee;--violet:#7c3aed;--teal:#0d9488;
+  --green:#16a34a;--red:#dc2626;
+  --bg:#f8fafc;--card:#ffffff;--text:#1e293b;
+  --muted:#64748b;--border:#e2e8f0;
+  --shadow:0 4px 24px rgba(67,97,238,.10);--radius:16px
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.hero{background:linear-gradient(135deg,#1e3a8a 0%,#4361ee 55%,#7c3aed 100%);color:#fff;padding:32px 20px 24px;text-align:center}
+.hero-badge{font-size:13px;opacity:.75;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
+.hero h1{font-size:28px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:15px;opacity:.8}
+.stepper-wrap{background:#fff;border-bottom:1px solid var(--border);overflow-x:auto;padding:0 8px}
+.stepper{display:flex;gap:4px;min-width:max-content;padding:10px 0}
+.step-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:8px 12px;border-radius:10px;font-family:inherit;font-size:11px;color:var(--muted);transition:all .2s;min-width:64px}
+.step-btn .icon{font-size:20px}
+.step-btn:hover{background:var(--bg);color:var(--text)}
+.step-btn.active{background:#eff6ff;color:var(--blue);font-weight:700}
+.step-btn.done{color:var(--green)}
+main{max-width:760px;margin:0 auto;padding:24px 16px 120px}
+.step-panel{display:none}
+.step-panel.active{display:block;animation:fadeUp .35s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+.card-title{font-size:18px;font-weight:800;margin-bottom:16px;color:var(--text)}
+/* Infographic */
+.grammar-img{width:100%;border-radius:14px;display:block;margin-bottom:20px;border:1px solid var(--border)}
+.grammar-label{font-size:12px;font-weight:700;color:var(--violet);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+/* Vimeo */
+.vimeo-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;margin-bottom:20px}
+.vimeo-wrap iframe{position:absolute;inset:0;width:100%;height:100%}
+.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.conv-item{background:#f1f5f9;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--text)}
+.conv-item span{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
+/* Quizlet */
+.quizlet-wrap{border-radius:12px;overflow:hidden}
+.conv-img{width:100%;border-radius:12px;margin-bottom:16px;display:block}
+.quiz-q{font-weight:700;font-size:15px;margin:20px 0 10px}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{padding:12px 16px;border:2px solid var(--border);border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;background:#fff;text-align:left;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:#eff6ff}
+.quiz-opt.correct{background:#dcfce7;border-color:var(--green);color:var(--green);font-weight:700}
+.quiz-opt.wrong{background:#fee2e2;border-color:var(--red);color:var(--red)}
+.quiz-opt:disabled{cursor:default}
+.quiz-result{margin-top:12px;padding:10px 14px;border-radius:10px;font-weight:700;font-size:14px}
+.quiz-result.pass{background:#dcfce7;color:var(--green)}
+.quiz-result.fail{background:#fff7ed;color:#ea580c}
+.pzl-outer{padding:20px;border:1px solid var(--border);border-radius:12px;margin-bottom:16px}
+.pzl-conv-title{font-weight:800;font-size:16px;margin-bottom:14px;color:var(--text)}
+.pzl-line{margin:8px 0;font-size:15px;line-height:1.9}
+.pzl-sel{padding:3px 6px;border:2px solid var(--blue);border-radius:6px;font-family:inherit;font-size:14px;background:#eff6ff;color:var(--blue);cursor:pointer;margin:0 3px}
+.pzl-audio-label{font-size:13px;color:var(--muted);margin:20px 0 6px;font-style:italic}
+.pzl-score{margin-top:10px}
+.check-btn{padding:10px 22px;background:var(--blue);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;margin-top:14px;transition:opacity .2s}
+.check-btn:hover{opacity:.85}
+.rslide{display:none}.rslide.active{display:block}
+.r-line{margin:7px 0;font-size:15px;line-height:1.7}
+.r-man{color:var(--teal);font-weight:600}.r-woman{color:var(--violet);font-weight:600}.r-role{font-weight:800}
+.car-nav{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.car-btn{padding:8px 16px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s}
+.car-btn:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+.car-btn:disabled{opacity:.35;cursor:default}
+.car-counter{font-size:13px;color:var(--muted);font-weight:600}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.flip-card{height:140px;perspective:800px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center}
+.flip-front{background:linear-gradient(135deg,#1e3a8a,#4361ee);color:#fff}
+.flip-front .fc-text{font-size:13px;font-weight:700;line-height:1.4}
+.flip-front .fc-hint{font-size:11px;opacity:.7;margin-top:6px}
+.flip-back{background:#fff;border:2px solid var(--border);color:var(--text);transform:rotateY(180deg)}
+.flip-back .fc-text{font-size:13px;font-weight:700;color:var(--violet);line-height:1.4}
+.flip-all-btn{margin-bottom:16px;padding:10px 20px;background:var(--violet);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;transition:opacity .2s}
+.flip-all-btn:hover{opacity:.85}
+.spslide{display:none}.spslide.active{display:block}
+.sp-dialog-title{font-size:16px;font-weight:800;margin-bottom:8px;color:var(--blue)}
+.sp-interview-note{font-size:12px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:14px;background:#f8fafc;padding:8px;border-radius:8px}
+.sp-line{margin:8px 0;font-size:14px;line-height:1.7}
+.sp-role{font-weight:800;color:var(--text);margin-right:6px}
+.sp-blank{display:inline-block;width:260px;border-bottom:2px dashed var(--violet);color:var(--muted);font-size:13px;font-style:italic}
+.results-fab{position:fixed;bottom:24px;right:20px;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:50px;padding:14px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(67,97,238,.35);z-index:100;transition:transform .2s}
+.results-fab:hover{transform:scale(1.04)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:20px;padding:28px;max-width:420px;width:92%;max-height:90vh;overflow-y:auto}
+.modal h2{font-size:20px;font-weight:800;margin-bottom:16px}
+.modal table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.modal td,.modal th{padding:8px 12px;border:1px solid var(--border);font-size:14px}
+.modal th{background:var(--bg);font-weight:700}
+.modal-total{font-size:18px;font-weight:800;text-align:center;margin-bottom:16px;color:var(--blue)}
+.results-textarea{width:100%;height:160px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:10px;border:2px solid var(--border);border-radius:10px;resize:none;color:var(--text);background:var(--bg)}
+.copy-btn{width:100%;padding:10px;background:var(--teal);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;margin-top:8px}
+.copy-btn:hover{opacity:.85}
+.modal-close{width:100%;padding:12px;background:var(--bg);border:2px solid var(--border);border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;margin-top:10px}
+.modal-close:hover{background:#e2e8f0}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-badge">Way2English · A2 · Урок 12</div>
+  <h1>May / Might</h1>
+  <p>I <em>might</em> retire next year. She <em>may</em> just be late.</p>
+</header>
+
+<nav class="stepper-wrap"><div class="stepper" id="stepper"></div></nav>
+<main id="main"></main>
+
+<button class="results-fab" onclick="openResults()">📊 Результати <span id="fabScore">0/0</span></button>
+
+<div class="modal-overlay" id="resultsModal">
+  <div class="modal">
+    <h2>📊 Результати</h2>
+    <table><thead><tr><th>Вправа</th><th>Результат</th></tr></thead><tbody id="resultsBody"></tbody></table>
+    <div class="modal-total" id="resultsTotal"></div>
+    <textarea class="results-textarea" id="resultsText" readonly></textarea>
+    <button class="copy-btn" onclick="copyResults()">📋 Копіювати для вчителя</button>
+    <button class="modal-close" onclick="document.getElementById('resultsModal').classList.remove('open')">Закрити</button>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+
+const CONVS = [
+  {
+    title: 'Conversation 1 — Sue',
+    img: 'A2-12-1-May-Might-Sue.jpg',
+    audio: 'A2-12-1-May-Might-Sue.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-1-May-Might-Sue.mp3',
+    qKey: 'q1',
+    questions: [
+      {
+        q: 'Why is Sue absent from class?',
+        opts: ['She has a basketball game', 'She is definitely sick', 'Nobody knows for sure', 'She is sleeping'],
+        ans: 2
+      },
+      {
+        q: 'Why does the man want to call Sue?',
+        opts: ['To invite her to a game', 'To check if she is OK', 'To tell her about class', 'To wake her up'],
+        ans: 1
+      },
+      {
+        q: 'What does the woman say about Sue coming today?',
+        opts: ['She definitely will not come', 'She is definitely late', 'She might come today', 'She is at basketball practice'],
+        ans: 2
+      }
+    ]
+  },
+  {
+    title: 'Conversation 2 — Retire',
+    img: 'A2-12-2-May-Might-Retire.jpg',
+    audio: 'A2-12-2-May-Might-Retire.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-2-May-Might-Retire.mp3',
+    qKey: 'q2',
+    questions: [
+      {
+        q: 'When might the woman retire?',
+        opts: ['This year', 'Next year', 'In five years', 'She has no plans'],
+        ans: 1
+      },
+      {
+        q: 'What will she probably do after retiring?',
+        opts: ['Play golf', 'Stay home', 'Travel', 'Study'],
+        ans: 2
+      },
+      {
+        q: 'Why probably won\'t she play much golf?',
+        opts: ['She doesn\'t like it', 'She has no time', 'It is too expensive', 'She is too tired'],
+        ans: 2
+      }
+    ]
+  },
+  {
+    title: 'Conversation 3 — Mall',
+    img: 'A2-12-3-May-Might-Mall.jpg',
+    audio: 'A2-12-3-May-Might-Mall.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-3-May-Might-Mall.mp3',
+    qKey: 'q3',
+    questions: [
+      {
+        q: 'Why can\'t they find parking?',
+        opts: ['The mall is closed', 'The mall is very crowded', 'There is a road block', 'It is too early'],
+        ans: 1
+      },
+      {
+        q: 'What might be causing the crowds?',
+        opts: ['Bad weather', 'A sale or special event', 'A sports game', 'A public holiday'],
+        ans: 1
+      },
+      {
+        q: 'What does the woman want to do?',
+        opts: ['Go home', 'Call the mall', 'Find a different mall', 'Wait for a parking space'],
+        ans: 3
+      }
+    ]
+  },
+  {
+    title: 'Conversation 4 — Kids',
+    img: 'A2-12-4-May-Might-Kids.jpg',
+    audio: 'A2-12-4-May-Might-Kids.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-4-May-Might-Kids.mp3',
+    qKey: 'q4',
+    questions: [
+      {
+        q: 'Where does the woman think Jason might be?',
+        opts: ['At school', 'At home', 'At the mall with friends', 'At a game'],
+        ans: 2
+      },
+      {
+        q: 'Where might Melanie still be?',
+        opts: ['At the mall', 'At a friend\'s house', 'At school', 'She is at home'],
+        ans: 2
+      },
+      {
+        q: 'What do they decide to do about dinner?',
+        opts: ['Go out to eat', 'Eat without the kids', 'Wait a little longer', 'Call the kids'],
+        ans: 2
+      }
+    ]
+  }
+];
+
+const PUZZLES = [
+  {
+    title: 'Conversation 1 — Sue',
+    audio: 'A2-12-1-May-Might-Sue.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-1-May-Might-Sue.mp3',
+    pKey: 'p1',
+    bank: ['wait', 'on', 'might', 'see', 'come', 'Maybe', 'in', 'season'],
+    sentences: [
+      'Man: Where is Sue? She is not {in} class today.',
+      'Woman: She may have a game. She is {on} the basketball team.',
+      'Man: No, that can\'t be it, the {season} is over. {Maybe} she is sick.',
+      'Woman: She {might} be sick. She looked tired yesterday.',
+      'Man: That might be it. I\'ll call her and {see} if she\'s OK.',
+      'Woman: No, don\'t do that. She might be sleeping.',
+      'Man: You\'re right. I will {wait} for her to contact us.',
+      'Woman: Who knows? She might {come} today, she may just be late.'
+    ]
+  },
+  {
+    title: 'Conversation 2 — Retire',
+    audio: 'A2-12-2-May-Might-Retire.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-2-May-Might-Retire.mp3',
+    pKey: 'p2',
+    bank: ['lots', 'probably', 'may', 'hobbies', 'retire', 'will', 'expensive', 'after'],
+    sentences: [
+      'Man: When will you {retire}?',
+      'Woman: I might retire next year.',
+      'Man: Really? So soon! What will you do {after} you retire?',
+      'Woman: I will {probably} travel. I love travelling.',
+      'Man: That sounds fun. Where {will} you go?',
+      "Woman: I'll probably go to Europe, but I {may} go to Asia.",
+      'Man: Well, you will have {lots} of time. You can do both.',
+      'Woman: You\'re right. I might do both.',
+      'Man: What about {hobbies}? I know you like to play golf.',
+      "Woman: I probably won't play golf that much. It's too {expensive}."
+    ]
+  },
+  {
+    title: 'Conversation 3 — Mall',
+    audio: 'A2-12-3-May-Might-Mall.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-3-May-Might-Mall.mp3',
+    pKey: 'p3',
+    bank: ['someone', 'special', 'may', 'Maybe', 'crowded', 'concert', 'Should', 'department'],
+    sentences: [
+      'Man: The mall is so {crowded} today. I cannot find parking.',
+      "Woman: I know! It's full. There might be a sale at the {department} store.",
+      'Man: {Maybe}, or there might be a {special} event.',
+      'Woman: Perhaps. What could it be?',
+      'Man: There might be a {concert} or festival.',
+      "Woman: That could be it. I didn't hear anything on the news, though.",
+      'Man: Well, there might not be any parking for a while. {Should} we go home?',
+      'Woman: No, let\'s wait. A space might open up soon.',
+      'Man: Look! Here comes {someone}. They might be leaving.',
+      'Woman: They {may} be. Let\'s see if they leave.'
+    ]
+  },
+  {
+    title: 'Conversation 4 — Kids',
+    audio: 'A2-12-4-May-Might-Kids.mp3',
+    audioFb: 'https://elllo.org/Audio/SoundGrammar/A2-Audio4x/A2-12-4-May-Might-Kids.mp3',
+    pKey: 'p4',
+    bank: ['come', 'without', 'about', 'longer', 'still', 'yet', 'much', 'might'],
+    sentences: [
+      'Man: Where are the kids?',
+      'Woman: No one is home {yet}. They may not come home for dinner.',
+      'Man: How {come}? Where is Jason?',
+      "Woman: I think he's with his friends. They {might} be at the mall.",
+      'Man: What {about} Melanie?',
+      "Woman: She's not home yet. She might {still} be at school.",
+      "Man: Well, I'm hungry. Let's eat {without} them.",
+      "Woman: No, let's wait a little {longer}. They might be home soon.",
+      'Man: OK, but not too {much} longer.'
+    ]
+  }
+];
+
+const READING = [
+  {
+    title: 'Conversation 1 — Sue',
+    lines: [
+      {role:'Man',   text:'Where is Sue? She is not in class today.'},
+      {role:'Woman', text:'She may have a game. She is on the basketball team.'},
+      {role:'Man',   text:"No, that can't be it, the season is over. Maybe she is sick."},
+      {role:'Woman', text:'She might be sick. She looked tired yesterday.'},
+      {role:'Man',   text:"That might be it. I'll call her and see if she's OK."},
+      {role:'Woman', text:"No, don't do that. She might be sleeping."},
+      {role:'Man',   text:"You're right. I will wait for her to contact us."},
+      {role:'Woman', text:"Who knows? She might come today, she may just be late."}
+    ]
+  },
+  {
+    title: 'Conversation 2 — Retire',
+    lines: [
+      {role:'Man',   text:'When will you retire?'},
+      {role:'Woman', text:'I might retire next year.'},
+      {role:'Man',   text:'Really? So soon! What will you do after you retire?'},
+      {role:'Woman', text:'I will probably travel. I love travelling.'},
+      {role:'Man',   text:'That sounds fun. Where will you go?'},
+      {role:'Woman', text:"I'll probably go to Europe, but I may go to Asia."},
+      {role:'Man',   text:'Well, you will have lots of time. You can do both.'},
+      {role:'Woman', text:"You're right. I might do both."},
+      {role:'Man',   text:'What about hobbies? I know you like to play golf.'},
+      {role:'Woman', text:"I probably won't play golf that much. It's too expensive."}
+    ]
+  },
+  {
+    title: 'Conversation 3 — Mall',
+    lines: [
+      {role:'Man',   text:'The mall is so crowded today. I cannot find parking.'},
+      {role:'Woman', text:"I know! It's full. There might be a sale at the department store."},
+      {role:'Man',   text:'Maybe, or there might be a special event.'},
+      {role:'Woman', text:'Perhaps. What could it be?'},
+      {role:'Man',   text:'There might be a concert or festival.'},
+      {role:'Woman', text:"That could be it. I didn't hear anything on the news, though."},
+      {role:'Man',   text:'Well, there might not be any parking for a while. Should we go home?'},
+      {role:'Woman', text:"No, let's wait. A space might open up soon."},
+      {role:'Man',   text:'Look! Here comes someone. They might be leaving.'},
+      {role:'Woman', text:"They may be. Let's see if they leave."}
+    ]
+  },
+  {
+    title: 'Conversation 4 — Kids',
+    lines: [
+      {role:'Man',   text:'Where are the kids?'},
+      {role:'Woman', text:'No one is home yet. They may not come home for dinner.'},
+      {role:'Man',   text:'How come? Where is Jason?'},
+      {role:'Woman', text:"I think he's with his friends. They might be at the mall."},
+      {role:'Man',   text:'What about Melanie?'},
+      {role:'Woman', text:"She's not home yet. She might still be at school."},
+      {role:'Man',   text:"Well, I'm hungry. Let's eat without them."},
+      {role:'Woman', text:"No, let's wait a little longer. They might be home soon."},
+      {role:'Man',   text:'OK, but not too much longer.'}
+    ]
+  }
+];
+
+const FLASHCARDS = [
+  {en:"She may have a game.",                    ua:"Можливо, у неї є гра."},
+  {en:"She might be sick.",                      ua:"Вона може бути хвора."},
+  {en:"I will wait for her to contact us.",      ua:"Я зачекаю, поки вона сама зв'яжеться з нами."},
+  {en:"I might retire next year.",               ua:"Я можу піти на пенсію наступного року."},
+  {en:"I will probably travel.",                 ua:"Я, мабуть, буду подорожувати."},
+  {en:"I may go to Asia.",                       ua:"Я можу поїхати до Азії."},
+  {en:"I probably won't play golf.",             ua:"Я, мабуть, не гратиму в гольф."},
+  {en:"There might be a sale.",                  ua:"Можливо, там є розпродаж."},
+  {en:"Should we go home?",                      ua:"Може, поїдемо додому?"},
+  {en:"A space might open up soon.",             ua:"Незабаром може з'явитися місце."},
+  {en:"They may not come home for dinner.",      ua:"Вони можуть не прийти додому на вечерю."},
+  {en:"They might be home soon.",                ua:"Вони можуть скоро прийти додому."}
+];
+
+const SPEAKING = [
+  {
+    title: 'Діалог 1 з 4',
+    interview: false,
+    lines: [
+      {role:'Студент А', text:'Що ти будеш робити після уроків?'},
+      {role:'Студент Б', text:'Я, мабуть, піду додому. Або можу зустрітися з другом.'},
+      {role:'Студент А', text:'А може, підемо разом до кафе?'},
+      {role:'Студент Б', text:'Може бути. Але я можу бути зайнятий(-а).'},
+      {role:'Студент А', text:'Добре. Дай мені знати!'},
+      {role:'Студент Б', text:'Обов\'язково. Я можу написати тобі пізніше.'},
+      {role:'Студент А', text:'Чудово!'},
+      {role:'Студент Б', text:'Якщо я вільний(-а) — точно прийду.'}
+    ]
+  },
+  {
+    title: 'Діалог 2 з 4',
+    interview: false,
+    lines: [
+      {role:'Студент А', text:'Які у тебе плани на вихідні?'},
+      {role:'Студент Б', text:'Ще не знаю. Може, поїду до батьків.'},
+      {role:'Студент А', text:'А може, підемо разом на концерт?'},
+      {role:'Студент Б', text:'Можливо! Який концерт?'},
+      {role:'Студент А', text:'Ще не вирішив(-ла). Може, рок або джаз.'},
+      {role:'Студент Б', text:'Звучить добре. Мабуть, я буду вільний(-а).'},
+      {role:'Студент А', text:'Я, мабуть, куплю квитки завтра.'},
+      {role:'Студент Б', text:'Чудово. Скажи мені, і я підтверджу.'}
+    ]
+  },
+  {
+    title: 'Діалог 3 з 4',
+    interview: true,
+    note: '🎤 Студент А перекладає запитання англійською → Студент Б відповідає про себе',
+    lines: [
+      {role:'Студент А', text:'Де ти можеш бути наступного літа?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти, мабуть, будеш подорожувати?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Куди ти можеш поїхати у відпустку?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Що ти, мабуть, будеш робити на вихідних?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти можеш піти на пенсію у майбутньому рано?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Де ти, мабуть, будеш через 10 років?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Що може трапитися, якщо ти добре вивчиш англійську?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти, мабуть, будеш жити в іншому місті чи країні?'},
+      {role:'Студент Б', blank:true}
+    ]
+  },
+  {
+    title: 'Діалог 4 з 4',
+    interview: true,
+    note: '🎤 Студент А перекладає запитання англійською → Студент Б відповідає про себе',
+    lines: [
+      {role:'Студент А', text:'Що ти будеш робити після цього уроку?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти, мабуть, будеш вчити нові слова сьогодні?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Що може змінитися у твоєму житті наступного року?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти можеш перейти на іншу роботу?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Може, ти купиш щось нове незабаром?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Що ти, мабуть, будеш їсти на вечерю сьогодні?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Ти можеш поїхати за кордон цього року?'},
+      {role:'Студент Б', blank:true},
+      {role:'Студент А', text:'Що, мабуть, буде найскладнішим для тебе цього тижня?'},
+      {role:'Студент Б', blank:true}
+    ]
+  }
+];
+
+// ===================== STATE =====================
+
+const STEPS = [
+  {id:'watch',   icon:'🎬', label:'Watch'},
+  {id:'words',   icon:'📚', label:'Слова'},
+  {id:'conv1',   icon:'🎧', label:'Розмова 1'},
+  {id:'conv2',   icon:'🎧', label:'Розмова 2'},
+  {id:'conv3',   icon:'🎧', label:'Розмова 3'},
+  {id:'conv4',   icon:'🎧', label:'Розмова 4'},
+  {id:'puzzle',  icon:'🧩', label:'Пазл'},
+  {id:'reading', icon:'📖', label:'Читання'},
+  {id:'cards',   icon:'🃏', label:'Картки'},
+  {id:'speaking',icon:'🗣️', label:'Говоримо'}
+];
+
+const correctMap = {};
+const quizAnswered = {};
+const quizScores = {};
+const puzzleScores = {};
+const carState = {r:0, sp:0};
+
+// ===================== STEPPER =====================
+
+function buildStepper() {
+  const st = document.getElementById('stepper');
+  STEPS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'step-btn';
+    btn.id = 'sbtn-' + i;
+    btn.innerHTML = '<span class="icon">' + s.icon + '</span><span>' + s.label + '</span>';
+    btn.onclick = () => goStep(i);
+    st.appendChild(btn);
+  });
+}
+
+function goStep(i) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + i).classList.add('active');
+  document.getElementById('sbtn-' + i).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function markDone(i) {
+  const b = document.getElementById('sbtn-' + i);
+  if (b) b.classList.add('done');
+}
+
+// ===================== QUIZ =====================
+
+function answerQuiz(qKey, qi, oi, ans, convIdx, btn) {
+  const ck = qKey + '-' + qi;
+  if (quizAnswered[ck]) return;
+  quizAnswered[ck] = true;
+  correctMap[ck] = (oi === ans);
+  const allOpts = btn.parentElement.querySelectorAll('.quiz-opt');
+  allOpts.forEach(b => b.disabled = true);
+  if (oi === ans) { btn.classList.add('correct'); }
+  else { btn.classList.add('wrong'); allOpts[ans].classList.add('correct'); }
+  const total = CONVS[convIdx].questions.length;
+  const allDone = Array.from({length:total}, (_, k) => !!quizAnswered[qKey + '-' + k]).every(Boolean);
+  if (allDone) {
+    let got = 0;
+    for (let k = 0; k < total; k++) { if (correctMap[qKey + '-' + k]) got++; }
+    quizScores[qKey] = {got, total};
+    updateFab();
+    markDone(convIdx + 2);
+    document.getElementById('qresult-' + convIdx).innerHTML =
+      '<div class="quiz-result ' + (got === total ? 'pass' : 'fail') + '">' +
+      (got === total ? '🏆' : '💪') + ' Результат: ' + got + '/' + total + '</div>';
+  }
+}
+
+// ===================== PUZZLE =====================
+
+function makeSel(answer, pi, gi, bank) {
+  const shuffled = [...bank].sort(() => Math.random() - 0.5);
+  let opts = '<option value="">—</option>';
+  shuffled.forEach(w => { opts += '<option value="' + w + '">' + w + '</option>'; });
+  return '<select class="pzl-sel" data-ans="' + answer + '" data-pi="' + pi + '" data-gi="' + gi + '">' + opts + '</select>';
+}
+
+function renderPuzzleSentences(sentences, pi, bank) {
+  let html = '', gi = 0;
+  sentences.forEach(sent => {
+    const parts = sent.split(/\{([^}]+)\}/g);
+    let line = '<p class="pzl-line">';
+    for (let i = 0; i < parts.length; i++) {
+      if (i % 2 === 0) { line += parts[i]; }
+      else { line += makeSel(parts[i], pi, gi, bank); gi++; }
+    }
+    html += line + '</p>';
+  });
+  return html;
+}
+
+function checkPuzzle(pi, pKey) {
+  const sels = document.querySelectorAll('[data-pi="' + pi + '"]');
+  let got = 0, total = sels.length;
+  sels.forEach(sel => {
+    if (sel.value === sel.dataset.ans) {
+      sel.style.background = '#dcfce7'; sel.style.color = '#16a34a'; sel.style.borderColor = '#16a34a'; got++;
+    } else {
+      sel.style.background = '#fee2e2'; sel.style.color = '#dc2626'; sel.style.borderColor = '#dc2626';
+    }
+  });
+  puzzleScores[pKey] = {got, total};
+  document.getElementById('pzl-score-' + pi).innerHTML =
+    '<div class="quiz-result ' + (got === total ? 'pass' : 'fail') + '">' +
+    (got === total ? '🏆' : '💪') + ' ' + got + '/' + total + '</div>';
+  updateFab();
+  markDone(6);
+}
+
+// ===================== CAROUSEL =====================
+
+function carNav(id, dir) {
+  carState[id] = Math.max(0, Math.min(3, carState[id] + dir));
+  const idx = carState[id];
+  const prefix = id === 'r' ? 'rslide' : 'spslide';
+  document.querySelectorAll('[id^="' + prefix + '"]').forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.getElementById(id + 'prev').disabled = idx === 0;
+  document.getElementById(id + 'next').disabled = idx === 3;
+  document.getElementById(id + 'counter').textContent = (idx + 1) + ' / 4';
+  if (id === 'r'  && idx === 3) markDone(7);
+  if (id === 'sp' && idx === 3) markDone(9);
+}
+
+// ===================== FLASHCARDS =====================
+
+let allFlipped = false;
+function flipAll() {
+  allFlipped = !allFlipped;
+  document.querySelectorAll('.flip-card').forEach(c => c.classList.toggle('flipped', allFlipped));
+}
+
+// ===================== RESULTS =====================
+
+function updateFab() {
+  let g = 0, t = 0;
+  Object.values(quizScores).forEach(s   => { if (s) { g += s.got; t += s.total; } });
+  Object.values(puzzleScores).forEach(s => { if (s) { g += s.got; t += s.total; } });
+  document.getElementById('fabScore').textContent = g + '/' + t;
+}
+
+function openResults() {
+  let rows = '', g = 0, t = 0;
+  for (let i = 1; i <= 4; i++) {
+    const s = quizScores['q' + i];   const v = s ? s.got + '/' + s.total : '—';
+    if (s) { g += s.got; t += s.total; }
+    rows += '<tr><td>Quiz ' + i + '</td><td>' + v + '</td></tr>';
+  }
+  for (let i = 1; i <= 4; i++) {
+    const s = puzzleScores['p' + i]; const v = s ? s.got + '/' + s.total : '—';
+    if (s) { g += s.got; t += s.total; }
+    rows += '<tr><td>Puzzle ' + i + '</td><td>' + v + '</td></tr>';
+  }
+  document.getElementById('resultsBody').innerHTML = rows;
+  const pct = t > 0 ? Math.round(g / t * 100) : 0;
+  const medal = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';
+  document.getElementById('resultsTotal').textContent = medal + ' ' + g + '/' + t + ' — ' + pct + '%';
+  let txt = 'A2-12 May / Might\n' + '\u2500'.repeat(28) + '\n';
+  for (let i = 1; i <= 4; i++) { const s = quizScores['q' + i];   txt += 'Quiz '   + i + ': ' + (s ? s.got + '/' + s.total : '\u2014') + '\n'; }
+  for (let i = 1; i <= 4; i++) { const s = puzzleScores['p' + i]; txt += 'Puzzle ' + i + ': ' + (s ? s.got + '/' + s.total : '\u2014') + '\n'; }
+  txt += '\u2500'.repeat(28) + '\n\u0417\u0430\u0433\u0430\u043b\u043e\u043c: ' + g + '/' + t + ' (' + pct + '%) ' + medal;
+  document.getElementById('resultsText').value = txt;
+  document.getElementById('resultsModal').classList.add('open');
+}
+
+function copyResults() {
+  document.getElementById('resultsText').select();
+  document.execCommand('copy');
+  const btn = event.target;
+  btn.textContent = '\u2705 \u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e!';
+  setTimeout(() => { btn.textContent = '\ud83d\udccb \u041a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0434\u043b\u044f \u0432\u0447\u0438\u0442\u0435\u043b\u044f'; }, 2000);
+}
+
+// ===================== BUILD UI =====================
+
+function buildUI() {
+  const main = document.getElementById('main');
+  let html = '';
+
+  // ── STEP 0: Watch ──
+  html += '<div class="step-panel active" id="panel-0"><div class="card">';
+  html += '<div class="grammar-label">\ud83d\udcd0 \u0413\u0440\u0430\u043c\u0430\u0442\u0438\u043a\u0430: \u0428\u043a\u0430\u043b\u0430 \u0432\u043f\u0435\u0432\u043d\u0435\u043d\u043e\u0441\u0442\u0456</div>';
+  html += '<img class="grammar-img" src="will__could__may__might__will_probably__Perhaps.png" alt="Modals of Probability scale">';
+  html += '<div class="vimeo-wrap"><iframe src="https://player.vimeo.com/video/578765073" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+  html += '<div class="card-title">\ud83c\udfac Watch: A2-12 May / Might</div>';
+  html += '<p style="font-size:14px;color:var(--muted);margin-bottom:14px;">\u041f\u043e\u0434\u0438\u0432\u0438\u0441\u044f \u0432\u0456\u0434\u0435\u043e. \u0417\u0432\u0435\u0440\u043d\u0438 \u0443\u0432\u0430\u0433\u0443 \u043d\u0430 <em>may</em>, <em>might</em>, <em>will probably</em>.</p>';
+  html += '<div class="conv-grid">';
+  const topics = ['Sue', 'Retire', 'Mall', 'Kids'];
+  const descs  = ['\u0414\u0435 \u0421\u044c\u044e?', '\u041f\u043b\u0430\u043d\u0438 \u043d\u0430 \u043f\u0435\u043d\u0441\u0456\u044e', '\u0421\u0442\u043e\u044f\u043d\u043a\u0430 \u043f\u043e\u0432\u043d\u0430', '\u0414\u0435 \u0434\u0456\u0442\u0438?'];
+  for (let i = 0; i < 4; i++) {
+    html += '<div class="conv-item">Conversation ' + (i+1) + ' \u2014 ' + topics[i] + '<span>' + descs[i] + '</span></div>';
+  }
+  html += '</div></div></div>';
+
+  // ── STEP 1: Words (Quizlet) ──
+  html += '<div class="step-panel" id="panel-1"><div class="card">';
+  html += '<div class="card-title">\ud83d\udcda \u0421\u043b\u043e\u0432\u0430 \u0443\u0440\u043e\u043a\u0443</div>';
+  html += '<div class="quizlet-wrap"><iframe src="https://quizlet.com/1192048837/flashcards/embed?i=37cc42&x=1jj1" height="500" width="100%" style="border:0" loading="lazy"></iframe></div>';
+  html += '</div></div>';
+
+  // ── STEPS 2–5: Conversations ──
+  CONVS.forEach((conv, ci) => {
+    html += '<div class="step-panel" id="panel-' + (ci + 2) + '"><div class="card">';
+    html += '<div class="card-title">\ud83c\udfa7 ' + conv.title + '</div>';
+    html += '<img class="conv-img" src="' + conv.img + '" alt="' + conv.title + '">';
+    html += '<audio controls style="display:block;width:100%;margin-bottom:20px;">';
+    html += '<source src="' + conv.audio + '">';
+    html += '<source src="' + conv.audioFb + '">';
+    html += '</audio>';
+    conv.questions.forEach((q, qi) => {
+      html += '<div class="quiz-q">' + (qi + 1) + '. ' + q.q + '</div><div class="quiz-opts">';
+      q.opts.forEach((opt, oi) => {
+        html += '<button class="quiz-opt" onclick="answerQuiz(\'' + conv.qKey + '\',' + qi + ',' + oi + ',' + q.ans + ',' + ci + ',this)">' + opt + '</button>';
+      });
+      html += '</div>';
+    });
+    html += '<div id="qresult-' + ci + '"></div></div></div>';
+  });
+
+  // ── STEP 6: Puzzle ──
+  html += '<div class="step-panel" id="panel-6"><div class="card">';
+  html += '<div class="card-title">\ud83e\udde9 \u041f\u0430\u0437\u043b \u2014 Gap Fill</div>';
+  html += '<p style="font-size:14px;color:var(--muted);margin-bottom:20px;">\u0412\u0438\u0431\u0435\u0440\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0435 \u0441\u043b\u043e\u0432\u043e \u0437 \u0432\u0438\u043f\u0430\u0434\u0430\u044e\u0447\u043e\u0433\u043e \u0441\u043f\u0438\u0441\u043a\u0443.</p>';
+  PUZZLES.forEach((pz, pi) => {
+    html += '<div class="pzl-outer" id="pzl-card-' + pi + '">';
+    html += '<div class="pzl-conv-title">' + pz.title + '</div>';
+    html += renderPuzzleSentences(pz.sentences, pi, pz.bank);
+    html += '<div class="pzl-audio-label">\ud83d\udca1 \u042f\u043a\u0449\u043e \u0442\u0440\u0435\u0431\u0430 \u2014 \u043f\u0440\u043e\u0441\u043b\u0443\u0445\u0430\u0439 \u0430\u0443\u0434\u0456\u043e \u0449\u0435 \u0440\u0430\u0437 \u2014 ' + pz.title + '</div>';
+    html += '<div id="pzl-audio-' + pi + '"></div>';
+    html += '<br><button class="check-btn" onclick="checkPuzzle(' + pi + ',\'' + pz.pKey + '\')">\u041f\u0435\u0440\u0435\u0432\u0456\u0440\u0438\u0442\u0438</button>';
+    html += '<div class="pzl-score" id="pzl-score-' + pi + '"></div></div>';
+  });
+  html += '</div></div>';
+
+  // ── STEP 7: Reading ──
+  html += '<div class="step-panel" id="panel-7"><div class="card">';
+  html += '<div class="card-title">\ud83d\udcd6 \u0427\u0438\u0442\u0430\u043d\u043d\u044f</div>';
+  html += '<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">\u0427\u0438\u0442\u0430\u0439 \u0442\u0430 \u043f\u0435\u0440\u0435\u043a\u043b\u0430\u0434\u0430\u0439 \u0443\u0441\u043d\u043e. <span style="color:var(--teal);font-weight:700;">Man</span> \u2014 <span style="color:var(--violet);font-weight:700;">Woman</span></p>';
+  html += '<div class="car-nav"><button class="car-btn" id="rprev" onclick="carNav(\'r\',-1)" disabled>\u2190 \u041d\u0430\u0437\u0430\u0434</button><span class="car-counter" id="rcounter">1 / 4</span><button class="car-btn" id="rnext" onclick="carNav(\'r\',1)">\u0414\u0430\u043b\u0456 \u2192</button></div>';
+  READING.forEach((rd, ri) => {
+    html += '<div class="rslide' + (ri === 0 ? ' active' : '') + '" id="rslide' + ri + '">';
+    html += '<div style="font-weight:800;font-size:16px;margin-bottom:14px;color:var(--blue);">' + rd.title + '</div>';
+    rd.lines.forEach(ln => {
+      const cls = ln.role === 'Man' ? 'r-man' : 'r-woman';
+      html += '<div class="r-line ' + cls + '"><span class="r-role">' + ln.role + ':</span> ' + ln.text + '</div>';
+    });
+    html += '</div>';
+  });
+  html += '</div></div>';
+
+  // ── STEP 8: Flashcards ──
+  html += '<div class="step-panel" id="panel-8"><div class="card">';
+  html += '<div class="card-title">\ud83c\udccf \u041a\u0430\u0440\u0442\u043a\u0438</div>';
+  html += '<button class="flip-all-btn" onclick="flipAll()">\ud83d\udd04 \u041f\u0435\u0440\u0435\u0432\u0435\u0440\u043d\u0443\u0442\u0438 \u0432\u0441\u0456</button>';
+  html += '<div class="cards-grid">';
+  FLASHCARDS.forEach((fc, i) => {
+    html += '<div class="flip-card" id="fc-' + i + '" onclick="this.classList.toggle(\'flipped\')">';
+    html += '<div class="flip-inner">';
+    html += '<div class="flip-front"><div class="fc-text">' + fc.en + '</div><div class="fc-hint">\ud83c\uddec\ud83c\udde7 \u041f\u0435\u0440\u0435\u043a\u043b\u0430\u0434\u0430\u0439 \u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u043e\u044e</div></div>';
+    html += '<div class="flip-back"><div class="fc-text">' + fc.ua + '</div></div>';
+    html += '</div></div>';
+  });
+  html += '</div></div></div>';
+
+  // ── STEP 9: Speaking ──
+  html += '<div class="step-panel" id="panel-9"><div class="card">';
+  html += '<div class="card-title">\ud83d\udde3\ufe0f \u0413\u043e\u0432\u043e\u0440\u0438\u043c\u043e</div>';
+  html += '<div class="car-nav"><button class="car-btn" id="spprev" onclick="carNav(\'sp\',-1)" disabled>\u2190 \u041d\u0430\u0437\u0430\u0434</button><span class="car-counter" id="spcounter">1 / 4</span><button class="car-btn" id="spnext" onclick="carNav(\'sp\',1)">\u0414\u0430\u043b\u0456 \u2192</button></div>';
+  SPEAKING.forEach((sp, si) => {
+    html += '<div class="spslide' + (si === 0 ? ' active' : '') + '" id="spslide' + si + '">';
+    html += '<div class="sp-dialog-title">' + sp.title + '</div>';
+    if (sp.note) { html += '<div class="sp-interview-note">' + sp.note + '</div>'; }
+    sp.lines.forEach(ln => {
+      html += '<div class="sp-line"><span class="sp-role">' + ln.role + ':</span>';
+      if (ln.blank) { html += '<span class="sp-blank">\u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u0454 \u043f\u0440\u043e \u0441\u0435\u0431\u0435 \u0430\u043d\u0433\u043b\u0456\u0439\u0441\u044c\u043a\u043e\u044e...</span>'; }
+      else { html += ln.text; }
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  html += '</div></div>';
+
+  main.innerHTML = html;
+
+  // Puzzle audio via createElement
+  PUZZLES.forEach((pz, pi) => {
+    const container = document.getElementById('pzl-audio-' + pi);
+    const aud = document.createElement('audio');
+    aud.controls = true; aud.style.cssText = 'display:block;width:100%;';
+    const s1 = document.createElement('source'); s1.src = pz.audio;
+    const s2 = document.createElement('source'); s2.src = pz.audioFb;
+    aud.appendChild(s1); aud.appendChild(s2);
+    container.appendChild(aud);
+  });
+}
+
+// ===================== INIT =====================
+buildStepper();
+buildUI();
+goStep(0);
+document.getElementById('sbtn-0').classList.add('active');
+</script>
+</body>
+</html>
